@@ -21,7 +21,7 @@ namespace CampusPlacementManagement.Data
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new PlacementOfficerConfiguration());
-
+            builder.ApplyConfiguration(new CompanyConfiguration());
             builder.ApplyConfiguration(new CollegeConfiguration());
         }
     }

@@ -1,5 +1,4 @@
-﻿
-namespace CampusPlacementManagement.Enums
+﻿namespace CampusPlacementManagement.Enums
 {
     public enum CollegeStatus
     {
