@@ -16,11 +16,13 @@ namespace CampusPlacementManagement.Data
 
         // Application tables
         public DbSet<College> Colleges { get; set; }
+        public DbSet<CompanyHR> CompanyHRs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new PlacementOfficerConfiguration());
+            builder.ApplyConfiguration(new CompanyHRConfiguration());
             builder.ApplyConfiguration(new CompanyConfiguration());
             builder.ApplyConfiguration(new CollegeConfiguration());
         }
