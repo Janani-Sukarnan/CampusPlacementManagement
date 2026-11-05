@@ -27,6 +27,8 @@ builder.Services.AddOpenApi();
 // 4. College module dependency injection
 builder.Services.AddScoped<ICollegeRepository, CollegeRepository>();
 builder.Services.AddScoped<ICollegeService, CollegeService>();
+builder.Services.AddScoped<IPlacementOfficerRepository, PlacementOfficerRepository>();
+builder.Services.AddScoped<IPlacementOfficerService, PlacementOfficerService>();
 
 var app = builder.Build();
 
