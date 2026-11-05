@@ -1,4 +1,6 @@
 
+using CampusPlacementManagement.Enums;
+
 namespace CampusPlacementManagement.Models
 {
     public class College
@@ -9,22 +11,18 @@ namespace CampusPlacementManagement.Models
 
         public string CollegeCode { get; set; } = string.Empty;
 
+        public string? UniversityName { get; set; }
+
+        public string OfficialEmail { get; set; } = string.Empty;
+
+        public string PhoneNumber { get; set; } = string.Empty;
+
         public string Address { get; set; } = string.Empty;
-
-        public string City { get; set; } = string.Empty;
-
-        public string State { get; set; } = string.Empty;
-
-        public string? ContactEmail { get; set; }
-
-        public string? ContactNumber { get; set; }
 
         public string? Website { get; set; }
 
-        public bool IsActive { get; set; } = true;
+        public CollegeStatus Status { get; set; } = CollegeStatus.Pending;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-        public DateTime? UpdatedAt { get; set; }
     }
 }

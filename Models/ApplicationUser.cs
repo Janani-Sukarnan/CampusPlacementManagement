@@ -1,4 +1,5 @@
 ﻿
+using CampusPlacementManagement.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace CampusPlacementManagement.Models
@@ -7,8 +8,10 @@ namespace CampusPlacementManagement.Models
     {
         public string FullName { get; set; } = string.Empty;
 
-        public bool IsActive { get; set; } = true;
+        public AccountStatus AccountStatus { get; set; } = AccountStatus.Pending;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public DateTime? UpdatedAt { get; set; }
     }
 }
