@@ -1,0 +1,1 @@
+namespace CampusPlacementManagement.DTOs.Colleges;
