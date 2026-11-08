@@ -1,6 +1,8 @@
 using CampusPlacementManagement.DTOs.CompanyHRs;
 using CampusPlacementManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace CampusPlacementManagement.Controllers
 {
@@ -16,6 +18,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // REGISTER COMPANY HR
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> RegisterCompanyHR(
             CreateCompanyHRRequest request)
@@ -36,6 +39,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // GET ALL COMPANY HRs
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public async Task<IActionResult> GetAllCompanyHRs()
         {
@@ -45,6 +49,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // GET PENDING COMPANY HRs
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingCompanyHRs()
         {
@@ -54,6 +59,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // GET COMPANY HR BY ID
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompanyHRById(int id)
         {
@@ -68,12 +74,13 @@ namespace CampusPlacementManagement.Controllers
         // APPROVE COMPANY HR
         // approvedBy is temporarily supplied through the query string.
         [HttpPut("{id}/approve")]
-        public async Task<IActionResult> ApproveCompanyHR(
-            int id,
-            [FromQuery] string approvedBy)
+        [Authorize(Roles = "SuperAdmin")]
+        public async Task<IActionResult> ApproveCompanyHR(int id)
         {
+            var approvedBy = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (string.IsNullOrWhiteSpace(approvedBy))
-                return BadRequest(new { message = "Approver user ID is required." });
+                return Unauthorized();
 
             var result = await _companyHRService.ApproveAsync(id, approvedBy);
 
@@ -87,6 +94,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // REJECT COMPANY HR
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPut("{id}/reject")]
         public async Task<IActionResult> RejectCompanyHR(int id)
         {
@@ -104,11 +112,13 @@ namespace CampusPlacementManagement.Controllers
         // GET CURRENT COMPANY HR
         // Temporary userId query parameter for testing before authentication.
         [HttpGet("me")]
-        public async Task<IActionResult> GetMyCompanyHR(
-            [FromQuery] string userId)
+        [Authorize(Roles = "CompanyHR")]
+        public async Task<IActionResult> GetMyCompanyHR()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (string.IsNullOrWhiteSpace(userId))
-                return BadRequest(new { message = "User ID is required." });
+                return Unauthorized();
 
             var companyHR = await _companyHRService.GetByUserIdAsync(userId);
 

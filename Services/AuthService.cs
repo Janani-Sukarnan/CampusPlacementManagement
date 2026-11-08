@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using CampusPlacementManagement.Enums;
 
 namespace CampusPlacementManagement.Services
 {
@@ -36,6 +37,12 @@ namespace CampusPlacementManagement.Services
                 user, request.Password);
 
             if (!isPasswordValid)
+                return null;
+            // Only approved users can log in.
+            if (user.AccountStatus != AccountStatus.Approved)
+                return null;
+            // 3. Allow login only for approved accounts
+            if (user.AccountStatus != CampusPlacementManagement.Enums.AccountStatus.Approved)
                 return null;
 
             // 3. Get user's roles

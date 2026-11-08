@@ -2,7 +2,7 @@
 using CampusPlacementManagement.DTOs.Companies;
 using CampusPlacementManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-//using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampusPlacementManagement.Controllers
 {
@@ -38,7 +38,7 @@ namespace CampusPlacementManagement.Controllers
 
         // Get all companies
         [HttpGet]
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> GetAllCompanies()
         {
             var companies = await _companyService.GetAllCompaniesAsync();
@@ -47,7 +47,7 @@ namespace CampusPlacementManagement.Controllers
 
         // Get pending companies
         [HttpGet("pending")]
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> GetPendingCompanies()
         {
             var companies = await _companyService.GetPendingCompaniesAsync();
@@ -56,7 +56,8 @@ namespace CampusPlacementManagement.Controllers
 
         // Get company by ID
         [HttpGet("{id}")]
-        //[Authorize(Roles = "SuperAdmin,CompanyHR")]
+        [Authorize(Roles = "SuperAdmin")]
+        //,CompanyHR")]
         public async Task<IActionResult> GetCompanyById(int id)
         {
             var company = await _companyService.GetCompanyByIdAsync(id);
@@ -69,7 +70,8 @@ namespace CampusPlacementManagement.Controllers
 
         // Update company
         [HttpPut("{id}")]
-        //[Authorize(Roles = "SuperAdmin,CompanyHR")]
+        [Authorize(Roles = "SuperAdmin")]
+        //,CompanyHR")]
         public async Task<IActionResult> UpdateCompany(
             int id, UpdateCompanyRequest request)
         {
@@ -86,7 +88,7 @@ namespace CampusPlacementManagement.Controllers
 
         // Approve company
         [HttpPut("{id}/approve")]
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> ApproveCompany(int id)
         {
             var result = await _companyService.ApproveCompanyAsync(id);
@@ -102,7 +104,7 @@ namespace CampusPlacementManagement.Controllers
 
         // Reject company
         [HttpPut("{id}/reject")]
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> RejectCompany(int id)
         {
             var result = await _companyService.RejectCompanyAsync(id);
@@ -118,7 +120,7 @@ namespace CampusPlacementManagement.Controllers
 
         // Suspend company
         [HttpPut("{id}/suspend")]
-        //[Authorize(Roles = "SuperAdmin")]
+        [Authorize(Roles = "SuperAdmin")]
         public async Task<IActionResult> SuspendCompany(int id)
         {
             var result = await _companyService.SuspendCompanyAsync(id);
