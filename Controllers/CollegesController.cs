@@ -2,6 +2,7 @@
 using CampusPlacementManagement.DTOs.Colleges;
 using CampusPlacementManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampusPlacementManagement.Controllers
 {
@@ -17,6 +18,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // GET: api/colleges
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public async Task<IActionResult> GetAllColleges()
         {
@@ -26,6 +28,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // GET: api/colleges/pending
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingColleges()
         {
@@ -35,6 +38,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // GET: api/colleges/5
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetCollegeById(int id)
         {
@@ -49,6 +53,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // POST: api/colleges/register
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> RegisterCollege(
             CreateCollegeRequest request)
@@ -69,6 +74,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // PUT: api/colleges/5
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> UpdateCollege(
             int id,
@@ -92,6 +98,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // PUT: api/colleges/5/approve
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPut("{id:int}/approve")]
         public async Task<IActionResult> ApproveCollege(int id)
         {
@@ -106,6 +113,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // PUT: api/colleges/5/reject
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPut("{id:int}/reject")]
         public async Task<IActionResult> RejectCollege(int id)
         {
@@ -120,6 +128,7 @@ namespace CampusPlacementManagement.Controllers
         }
 
         // PUT: api/colleges/5/suspend
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPut("{id:int}/suspend")]
         public async Task<IActionResult> SuspendCollege(int id)
         {

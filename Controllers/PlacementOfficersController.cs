@@ -3,6 +3,7 @@ using CampusPlacementManagement.DTOs.PlacementOfficers;
 using CampusPlacementManagement.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampusPlacementManagement.Controllers
 {
@@ -16,21 +17,21 @@ namespace CampusPlacementManagement.Controllers
         {
             _service = service;
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var officers = await _service.GetAllAsync();
             return Ok(officers);
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("pending")]
         public async Task<IActionResult> GetPending()
         {
             var officers = await _service.GetPendingAsync();
             return Ok(officers);
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -41,7 +42,7 @@ namespace CampusPlacementManagement.Controllers
 
             return Ok(officer);
         }
-
+        [Authorize(Roles = "PlacementOfficer")]
         [HttpGet("me")]
         public async Task<IActionResult> GetMyProfile()
         {
@@ -57,7 +58,7 @@ namespace CampusPlacementManagement.Controllers
 
             return Ok(officer);
         }
-
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(
             CreatePlacementOfficerRequest request)
@@ -76,7 +77,7 @@ namespace CampusPlacementManagement.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPut("{id:int}/approve")]
         public async Task<IActionResult> Approve(int id)
         {
@@ -84,6 +85,8 @@ namespace CampusPlacementManagement.Controllers
             {
                 var approvedByUserId =
                     User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (string.IsNullOrEmpty(approvedByUserId))
+                    return Unauthorized();
 
                 var result = await _service.ApproveAsync(
                     id, approvedByUserId);
@@ -98,7 +101,7 @@ namespace CampusPlacementManagement.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPut("{id:int}/reject")]
         public async Task<IActionResult> Reject(int id)
         {
@@ -109,7 +112,7 @@ namespace CampusPlacementManagement.Controllers
 
             return Ok(new { message = "Placement officer rejected successfully." });
         }
-
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPut("{id:int}/suspend")]
         public async Task<IActionResult> Suspend(int id)
         {
