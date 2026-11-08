@@ -75,6 +75,8 @@ builder.Services.AddScoped<ICompanyHRService, CompanyHRService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IJobOpeningRepository, JobOpeningRepository>();
+builder.Services.AddScoped<IJobOpeningService, JobOpeningService>();
 
 var app = builder.Build();
 // Seed roles and SuperAdmin account
