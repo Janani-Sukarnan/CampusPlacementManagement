@@ -75,6 +75,13 @@ builder.Services.AddScoped<ICompanyHRService, CompanyHRService>();
 builder.Services.AddScoped<AuthService>();
 
 var app = builder.Build();
+// Seed roles and SuperAdmin account
+using (var scope = app.Services.CreateScope())
+{
+    await RoleSeeder.SeedAsync(
+        scope.ServiceProvider,
+        app.Configuration);
+}
 
 // 5. HTTP request pipeline
 if (app.Environment.IsDevelopment())
