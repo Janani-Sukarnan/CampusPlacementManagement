@@ -85,7 +85,13 @@ builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>(
 builder.Services.AddScoped<IJobApplicationService, JobApplicationService>();
 builder.Services.AddScoped<IInterviewRepository, InterviewRepository>();
 builder.Services.AddScoped<IInterviewService, InterviewService>();
+builder.Services.AddScoped<
+    IApplicationStatusHistoryRepository,
+    ApplicationStatusHistoryRepository>();
 
+builder.Services.AddScoped<
+    IApplicationStatusHistoryService,
+    ApplicationStatusHistoryService>();
 
 var app = builder.Build();
 // Seed roles and SuperAdmin account

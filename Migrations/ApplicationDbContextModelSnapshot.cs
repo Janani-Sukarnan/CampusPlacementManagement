@@ -22,6 +22,44 @@ namespace CampusPlacementManagement.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CampusPlacementManagement.Models.ApplicationStatusHistory", b =>
+                {
+                    b.Property<int>("ApplicationStatusHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApplicationStatusHistoryId"));
+
+                    b.Property<DateTime>("ChangedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ChangedByUserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("JobApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NewStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreviousStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.HasKey("ApplicationStatusHistoryId");
+
+                    b.HasIndex("ChangedByUserId");
+
+                    b.HasIndex("JobApplicationId");
+
+                    b.ToTable("ApplicationStatusHistories");
+                });
+
             modelBuilder.Entity("CampusPlacementManagement.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -684,6 +722,25 @@ namespace CampusPlacementManagement.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("CampusPlacementManagement.Models.ApplicationStatusHistory", b =>
+                {
+                    b.HasOne("CampusPlacementManagement.Models.ApplicationUser", "ChangedByUser")
+                        .WithMany()
+                        .HasForeignKey("ChangedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CampusPlacementManagement.Models.JobApplication", "JobApplication")
+                        .WithMany()
+                        .HasForeignKey("JobApplicationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ChangedByUser");
+
+                    b.Navigation("JobApplication");
                 });
 
             modelBuilder.Entity("CampusPlacementManagement.Models.CompanyHR", b =>

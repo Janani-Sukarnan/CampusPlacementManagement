@@ -23,6 +23,7 @@ namespace CampusPlacementManagement.Data
         public DbSet<RecruitmentDrive> RecruitmentDrives { get; set; }
         public DbSet<JobApplication> JobApplications { get; set; }
         public DbSet<Interview> Interviews { get; set; }
+        public DbSet<ApplicationStatusHistory> ApplicationStatusHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -37,6 +38,7 @@ namespace CampusPlacementManagement.Data
             builder.ApplyConfiguration(new RecruitmentDriveConfiguration());
             builder.ApplyConfiguration(new JobApplicationConfiguration());
             builder.ApplyConfiguration(new InterviewConfiguration());
+            builder.ApplyConfiguration(new ApplicationStatusHistoryConfiguration());
         }
     }
 }

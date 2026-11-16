@@ -1,4 +1,3 @@
-
 using CampusPlacementManagement.DTOs.JobApplications;
 using CampusPlacementManagement.Enums;
 using CampusPlacementManagement.Models;
@@ -13,17 +12,20 @@ namespace CampusPlacementManagement.Services
         private readonly IStudentRepository _studentRepository;
         private readonly IJobOpeningRepository _jobOpeningRepository;
         private readonly ICompanyHRRepository _companyHRRepository;
+        private readonly IApplicationStatusHistoryRepository _historyRepository;
 
         public JobApplicationService(
             IJobApplicationRepository repository,
             IStudentRepository studentRepository,
             IJobOpeningRepository jobOpeningRepository,
-            ICompanyHRRepository companyHRRepository)
+            ICompanyHRRepository companyHRRepository,
+            IApplicationStatusHistoryRepository historyRepository)
         {
             _repository = repository;
             _studentRepository = studentRepository;
             _jobOpeningRepository = jobOpeningRepository;
             _companyHRRepository = companyHRRepository;
+            _historyRepository = historyRepository;
         }
 
         public async Task<IEnumerable<JobApplicationResponse>> GetAllAsync()
@@ -147,11 +149,29 @@ namespace CampusPlacementManagement.Services
                         "You can only update applications for your company's jobs.");
             }
 
-            application.Status = request.Status;
+            var previousStatus = application.Status;
 
-            await _repository.UpdateAsync(application);
+            if (previousStatus != request.Status)
+            {
+                application.Status = request.Status;
 
-            return MapToResponse(application);
+                await _repository.UpdateAsync(application);
+
+                var history = new ApplicationStatusHistory
+                {
+                    JobApplicationId = application.JobApplicationId,
+                    PreviousStatus = previousStatus,
+                    NewStatus = request.Status,
+                    ChangedAt = DateTime.UtcNow,
+                    ChangedByUserId = userId
+                };
+
+                await _historyRepository.AddAsync(history);
+            }
+
+            var updatedApplication = await _repository.GetByIdAsync(id);
+
+            return MapToResponse(updatedApplication!);
         }
 
         private static JobApplicationResponse MapToResponse(
