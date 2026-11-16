@@ -81,6 +81,8 @@ builder.Services.AddScoped<IJobTargetCollegeRepository, JobTargetCollegeReposito
 builder.Services.AddScoped<IJobTargetCollegeService, JobTargetCollegeService>();
 builder.Services.AddScoped<IRecruitmentDriveRepository, RecruitmentDriveRepository>();
 builder.Services.AddScoped<IRecruitmentDriveService, RecruitmentDriveService>();
+builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+builder.Services.AddScoped<IJobApplicationService, JobApplicationService>();
 
 
 var app = builder.Build();

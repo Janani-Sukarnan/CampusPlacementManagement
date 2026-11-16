@@ -238,6 +238,44 @@ namespace CampusPlacementManagement.Migrations
                     b.ToTable("CompanyHRs");
                 });
 
+            modelBuilder.Entity("CampusPlacementManagement.Models.JobApplication", b =>
+                {
+                    b.Property<int>("JobApplicationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JobApplicationId"));
+
+                    b.Property<DateTime>("AppliedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CoverLetter")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<int>("JobOpeningId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ResumeUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("JobApplicationId");
+
+                    b.HasIndex("JobOpeningId");
+
+                    b.HasIndex("StudentId", "JobOpeningId")
+                        .IsUnique();
+
+                    b.ToTable("JobApplications");
+                });
+
             modelBuilder.Entity("CampusPlacementManagement.Models.JobOpening", b =>
                 {
                     b.Property<int>("JobOpeningId")
@@ -623,6 +661,25 @@ namespace CampusPlacementManagement.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CampusPlacementManagement.Models.JobApplication", b =>
+                {
+                    b.HasOne("CampusPlacementManagement.Models.JobOpening", "JobOpening")
+                        .WithMany()
+                        .HasForeignKey("JobOpeningId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CampusPlacementManagement.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("JobOpening");
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("CampusPlacementManagement.Models.JobOpening", b =>

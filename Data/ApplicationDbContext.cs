@@ -21,6 +21,7 @@ namespace CampusPlacementManagement.Data
         public DbSet<JobOpening> JobOpenings { get; set; }
         public DbSet<JobTargetCollege> JobTargetColleges { get; set; }
         public DbSet<RecruitmentDrive> RecruitmentDrives { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -33,6 +34,7 @@ namespace CampusPlacementManagement.Data
             builder.ApplyConfiguration(new JobOpeningConfiguration());
             builder.ApplyConfiguration(new JobTargetCollegeConfiguration());
             builder.ApplyConfiguration(new RecruitmentDriveConfiguration());
+            builder.ApplyConfiguration(new JobApplicationConfiguration());
         }
     }
 }
