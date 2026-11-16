@@ -19,6 +19,7 @@ namespace CampusPlacementManagement.Data
         public DbSet<CompanyHR> CompanyHRs { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<JobOpening> JobOpenings { get; set; }
+        public DbSet<JobTargetCollege> JobTargetColleges { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -29,6 +30,7 @@ namespace CampusPlacementManagement.Data
             builder.ApplyConfiguration(new CollegeConfiguration());
             builder.ApplyConfiguration(new StudentConfiguration());
             builder.ApplyConfiguration(new JobOpeningConfiguration());
+            builder.ApplyConfiguration(new JobTargetCollegeConfiguration());
         }
     }
 }

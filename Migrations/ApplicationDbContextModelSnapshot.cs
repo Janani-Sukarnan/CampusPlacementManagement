@@ -296,6 +296,33 @@ namespace CampusPlacementManagement.Migrations
                     b.ToTable("JobOpenings");
                 });
 
+            modelBuilder.Entity("CampusPlacementManagement.Models.JobTargetCollege", b =>
+                {
+                    b.Property<int>("JobTargetCollegeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JobTargetCollegeId"));
+
+                    b.Property<int>("CollegeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("JobOpeningId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TargetedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("JobTargetCollegeId");
+
+                    b.HasIndex("CollegeId");
+
+                    b.HasIndex("JobOpeningId", "CollegeId")
+                        .IsUnique();
+
+                    b.ToTable("JobTargetColleges");
+                });
+
             modelBuilder.Entity("CampusPlacementManagement.Models.PlacementOfficer", b =>
                 {
                     b.Property<int>("PlacementOfficerId")
@@ -565,6 +592,25 @@ namespace CampusPlacementManagement.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("CampusPlacementManagement.Models.JobTargetCollege", b =>
+                {
+                    b.HasOne("CampusPlacementManagement.Models.College", "College")
+                        .WithMany()
+                        .HasForeignKey("CollegeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CampusPlacementManagement.Models.JobOpening", "JobOpening")
+                        .WithMany()
+                        .HasForeignKey("JobOpeningId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("College");
+
+                    b.Navigation("JobOpening");
                 });
 
             modelBuilder.Entity("CampusPlacementManagement.Models.PlacementOfficer", b =>
