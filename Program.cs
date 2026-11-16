@@ -83,6 +83,8 @@ builder.Services.AddScoped<IRecruitmentDriveRepository, RecruitmentDriveReposito
 builder.Services.AddScoped<IRecruitmentDriveService, RecruitmentDriveService>();
 builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
 builder.Services.AddScoped<IJobApplicationService, JobApplicationService>();
+builder.Services.AddScoped<IInterviewRepository, InterviewRepository>();
+builder.Services.AddScoped<IInterviewService, InterviewService>();
 
 
 var app = builder.Build();

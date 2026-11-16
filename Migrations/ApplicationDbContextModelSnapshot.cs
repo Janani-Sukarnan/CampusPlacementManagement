@@ -238,6 +238,55 @@ namespace CampusPlacementManagement.Migrations
                     b.ToTable("CompanyHRs");
                 });
 
+            modelBuilder.Entity("CampusPlacementManagement.Models.Interview", b =>
+                {
+                    b.Property<int>("InterviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InterviewId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Feedback")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateTime>("InterviewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("InterviewMode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("InterviewRound")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("JobApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Location")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("MeetingLink")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("InterviewId");
+
+                    b.HasIndex("JobApplicationId");
+
+                    b.ToTable("Interviews");
+                });
+
             modelBuilder.Entity("CampusPlacementManagement.Models.JobApplication", b =>
                 {
                     b.Property<int>("JobApplicationId")
@@ -661,6 +710,17 @@ namespace CampusPlacementManagement.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CampusPlacementManagement.Models.Interview", b =>
+                {
+                    b.HasOne("CampusPlacementManagement.Models.JobApplication", "JobApplication")
+                        .WithMany()
+                        .HasForeignKey("JobApplicationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("JobApplication");
                 });
 
             modelBuilder.Entity("CampusPlacementManagement.Models.JobApplication", b =>
