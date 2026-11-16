@@ -364,6 +364,48 @@ namespace CampusPlacementManagement.Migrations
                     b.ToTable("PlacementOfficer");
                 });
 
+            modelBuilder.Entity("CampusPlacementManagement.Models.RecruitmentDrive", b =>
+                {
+                    b.Property<int>("RecruitmentDriveId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RecruitmentDriveId"));
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("DriveName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Venue")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("RecruitmentDriveId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("RecruitmentDrives");
+                });
+
             modelBuilder.Entity("CampusPlacementManagement.Models.Student", b =>
                 {
                     b.Property<int>("StudentId")
@@ -637,6 +679,17 @@ namespace CampusPlacementManagement.Migrations
                     b.Navigation("College");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CampusPlacementManagement.Models.RecruitmentDrive", b =>
+                {
+                    b.HasOne("CampusPlacementManagement.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("CampusPlacementManagement.Models.Student", b =>

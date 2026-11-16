@@ -79,6 +79,9 @@ builder.Services.AddScoped<IJobOpeningRepository, JobOpeningRepository>();
 builder.Services.AddScoped<IJobOpeningService, JobOpeningService>();
 builder.Services.AddScoped<IJobTargetCollegeRepository, JobTargetCollegeRepository>();
 builder.Services.AddScoped<IJobTargetCollegeService, JobTargetCollegeService>();
+builder.Services.AddScoped<IRecruitmentDriveRepository, RecruitmentDriveRepository>();
+builder.Services.AddScoped<IRecruitmentDriveService, RecruitmentDriveService>();
+
 
 var app = builder.Build();
 // Seed roles and SuperAdmin account
